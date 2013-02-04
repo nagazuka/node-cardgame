@@ -1,6 +1,13 @@
+function Player(id, index, isHuman, team) {
+   this.id = id;
+   this.index = index;
+   this.isHuman = isHuman;
+   this.team = team;
+}
 
 var createPlayer = function (id, index, isHuman, team) {
-  return {'id': id, 'index': index, 'isHuman': isHuman, 'team': team};
+  return new Player(id, index, isHuman, team);
+  //return {'id': id, 'index': index, 'isHuman': isHuman, 'team': team};
 }
 
 var createPlayers = function(teams) {

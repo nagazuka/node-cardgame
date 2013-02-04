@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--<html lang="en" manifest="troefcall.appcache">-->
+  <head>
+    <meta charset="utf-8">
+    <title>TroefCall Online</title>
+    <meta name="description" content="">
+    <meta name="author" content="Shanny Anoep">
+    <meta name="google-site-verification" content="ncD4u35s87_2UUusay9XhsvZ8PvgUFgBoeoQTdMD53A" />
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Alfa+Slab+One' rel='stylesheet' type='text/css'>
+
+    <link href="presentation/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="presentation/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="presentation/screen.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-bottom: 40px;
+      }
+    </style>
+    <script src="behaviour/config.js" type="text/javascript"></script>
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+  </head>
+
+  <body>
+    <!--
+    <div id="fb-root"></div>
+      <script>
+        (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=" + conf.FACEBOOK_APPID;
+        fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+      </script>
+    -->
+    <div class="container">
+      <div class="page-header">
+        <h1>TroefCall<span style="color: red;">Online</span> <small>Straight from Paramaribo...</small>
+        </h1>
+      </div>
+      <div class="row-fluid">
+        <div class="span12">
+
+        <div id="progressOverlay">
+          <h1 id="txtLoading">Bezig met laden...</h1>
+          <div class="progress progress-danger progress-striped active">
+            <div id="progressBar" class="bar" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <div id="canvas">
+        &nbsp;
+        </div>
+
+    <div id="browserLinks">
+      <p>
+      Je huidige browser is niet geschikt voor TroefCall Online. Download een modernere browser en probeer het opnieuw. Probeer één van onderstaande links:
+      <ul>
+        <li><a href="https://www.google.com/chrome?hl=nl">Google Chrome</a>
+        <li><a href="http://www.mozilla.org/nl/firefox/">Firefox</a>
+      </ul>
+      Deze browsers zijn meestal ook veiliger en sneller!
+      </p>
+    </div>
+    
+    <div id="fbContainer">
+     <div class="fb-like" data-href="http://troefcall.nagazuka.nl" data-send="true" data-width="450" data-show-faces="true" data-font="trebuchet ms"></div>
+    </div>
+
+  </div>
+</div>
+
+  <div id="welcomeModal" class="modal hide fade"> 
+    <div class="modal-header">
+      <a id="closePlayerName" href="#" class="close" data-dismiss="modal">&times;</a>
+      <h3>Welkom bij TroefCall Online</h3>
+    </div>
+    <form id="formPlayerName" class="well">
+    <div class="modal-body">
+      <p>Voordat we beginnen met TroefCall Online, eerst je naam invoeren:</p>
+     <label>Naam</label>
+      <input id="inputPlayerName" type="text" class="span3" placeholder="Typ je naam"> <span class="help-inline">&nbsp;</span>
+   </div>
+   <div class="modal-footer">
+     <button type="submit" class="btn btn-primary btn-large">Starten</button>
+   </div>
+   </form>
+  </div>
+      
+  <div id="disconnectModal" class="modal hide fade"> 
+    <div class="modal-header">
+      <a id="closeModalHeader" href="#" class="close" data-dismiss="modal">&times;</a>
+      <h3>Oh oh...</h3>
+    </div>
+    <form id="formPlayerName" class="well">
+      <div class="modal-body">
+        <h3>Verbinding verloren</h3>
+        <p>Het lijkt erop dat de verbinding met TroefCall Online is verloren. Check je internet toegang even en probeer het later opnieuw. Sorry...</p>
+      </div>
+      <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Opnieuw laden</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+        <div class="row-fluid">
+          <div class="span12">&nbsp;</div>
+          <div style="position:relative; width:728px; margin:auto;">
+          <script type="text/javascript"><!--
+          google_ad_client = "ca-pub-3964219600595733";
+          /* Troefcall Online */
+          google_ad_slot = "2259581847";
+          google_ad_width = 728;
+          google_ad_height = 90;
+          //-->
+          </script>
+          <script type="text/javascript"
+            src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+          </script>
+          </div>
+        </div>
+      <hr>
+      <div class="row-fluid">
+        <div class="span12">
+          <div id="copyright">
+            <footer>
+              <p>&copy; <a href="mailto:troefcall@nagazuka.nl">Shanny Anoep</a> 2012</p>
+            </footer>
+          </div>
+        </div>
+      </div>
+    </div> <!-- /container -->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://localhost:9080/socket.io/socket.io.js" type="text/javascript"></script>
+    <script src="behaviour/lib/jquery-1.7.2.js" type="text/javascript"></script>
+    <script src="behaviour/lib/underscore-1.3.3.js" type="text/javascript"></script>
+    <script src="behaviour/lib/underscore.string.js" type="text/javascript"></script>
+    <script src="behaviour/lib/backbone-0.9.2.js" type="text/javascript"></script>
+    <script src="behaviour/lib/bootstrap.js" type="text/javascript"></script>
+    <script src="behaviour/lib/PxLoader.js" type="text/javascript"></script>
+    <script src="behaviour/lib/PxLoaderImage.js" type="text/javascript"></script>
+    <script src="behaviour/lib/raphael-2.1.0.js" type="text/javascript"></script>
+    <script src="behaviour/text.js" type="text/javascript"></script>
+    <script src="behaviour/constants.js" type="text/javascript"></script>
+    <script src="behaviour/tasks.js" type="text/javascript"></script>
+    <script src="behaviour/animation.js" type="text/javascript"></script>
+    <script src="behaviour/view.js" type="text/javascript"></script>
+    <script src="behaviour/engine.js" type="text/javascript"></script>
+    <script src="behaviour/messagehandler.js" type="text/javascript"></script>
+    <script src="behaviour/application.js" type="text/javascript"></script>
+    <script type="text/javascript">
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-642674-4']);
+    _gaq.push(['_setDomainName', 'troefcallonline.nl']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+     })();
+
+    </script>
+  </body>
+</html>

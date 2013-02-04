@@ -1,0 +1,66 @@
+#browser-not-supported #debugContainer #scoreContainer #canvas {
+  display: none;
+}
+
+#alertContainer {
+  display: none;
+  z-index: 1000;
+}
+
+#browserLinks {
+  display: none;
+}
+
+svg {
+  display: block;
+  margin: auto;
+}
+
+#fbContainer {
+  width: 728px;
+  display: block;
+  margin: auto;
+}
+
+#progressOverlay {
+  display: block;
+  margin: auto;
+  width: 728px;
+  height: 600px;
+}
+
+#copyright {
+  display: block;
+  margin: auto;
+  width: 200px;
+}
+
+body {
+  font-family: "Ubuntu", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background-image: url(../images/bright_squares.png);
+  background-repeat: repeat;
+}
+
+p {
+  font-family: "Ubuntu", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Ubuntu", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+input,
+button,
+select,
+textarea {
+  font-family: "Ubuntu", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.navbar-search .search-query {
+  font-family: "Ubuntu", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}

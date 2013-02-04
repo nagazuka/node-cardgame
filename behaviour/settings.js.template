@@ -1,0 +1,6 @@
+var settings = {
+  PORT_NUMBER : 8080,
+  GOOGLE_ANALYTICS_CODE : '',
+  FACEBOOK_APPID : '',
+  MODE : 'DEVELOPMENT'
+};

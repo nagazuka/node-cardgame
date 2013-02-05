@@ -13,11 +13,11 @@ var Deck = cards.Deck;
 var PlayerMove = cards.PlayerMove;
 
 // Game instance variables
-var humanPlayerIndex = 0;
-var playingOrder = [2, 3, 0, 1];
+var humanPlayerIndex = 2;
+var playingOrder = [0, 1, 2, 3];
 var playerList = [];
 var playerCards = {};
-var trumpSuit = "";
+var trumpSuit;
 var hand = new HandInfo();
 var teamScores = {};
 var deck;
@@ -262,10 +262,10 @@ var convertHand = function(hand) {
 };
 
 var resetGame = function() {
-  playingOrder = [2, 3, 0, 1];
+  playingOrder = [0, 1, 2, 3];
   playerList = [];
   playerCards = {};
   teamScores = {};
-  trumpSuit = "";
+  trumpSuit = undefined;
   hand = new HandInfo();
 };

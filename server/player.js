@@ -13,14 +13,12 @@ var createPlayer = function (id, index, isHuman, team) {
 }
 
 var createPlayers = function(teams) {
-  var i;
-  var players = [];
-  for(i = 0; i < 4; i++) {
-    var isHuman = i == 2;
-    var teamName = i % 2 == 0 ? teams[0]  : teams[1]; 
-    var player = createPlayer(i+1, i, isHuman, teamName);
-    players.push(player);
-  } 
+  p1 = new Player(1, 0, true, teams[0]);
+  p2 = new Player(2, 1, false, teams[0]);
+  p3 = new Player(3, 2, false, teams[1]);
+  p4 = new Player(4, 3, false, teams[1]);
+  
+  var players = [p1, p2, p3, p4];
   return players;
 }
 

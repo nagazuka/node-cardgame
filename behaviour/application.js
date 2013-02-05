@@ -4,6 +4,10 @@
 
 function hasRequiredFeatures() {
   var res = true;
+  if (!("io" in window) && !("io" in window)) {
+    res = false;
+    console.error("No Socket.IO loaded");
+  }
   if (!("WebSocket" in window) && !("MozWebSocket" in window)) {
     res = false;
     console.error("No WebSocket support detected");

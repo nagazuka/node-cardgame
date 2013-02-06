@@ -556,15 +556,23 @@ View.prototype = {
     var self = this;
     var cardImage = this.getCanvas().image(this.getCardImageFile(card.get('rank'), card.get('suit')), x, y, width, height);
 
+    //IE hack because toFront() freaks it out and recursively applies mouseover handler
+    cardImage.mouseOvered = false;
+
     cardImage.mouseover(function(event) {
+      if (this.mouseOvered == false) {
+        this.mouseOvered = true;
         this.translate(0,-1*constants.CARD_HEIGHT);
         this.attr({'height': constants.CARD_HEIGHT * 2, 'width': constants.CARD_WIDTH * 2});
         this.toFront();
+      }
     });
+
     cardImage.mouseout(function(event) {
         this.translate(0,constants.CARD_HEIGHT);
         this.attr({'height': constants.CARD_HEIGHT, 'width': constants.CARD_WIDTH});
         self.clearError();
+        this.mouseOvered = false;
     });
 
     cardImage.click(function(event) {

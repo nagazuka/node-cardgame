@@ -9,7 +9,7 @@ function TextTask(element, text) {
 TextTask.prototype = new AsyncTask;
 TextTask.prototype.run = function() {
         this.element.attr({'text': this.text});
-        this.element.attr({'opacity': '1','fill': '//gcfff'});
+        this.element.attr({'opacity': '1','fill': 'white'});
         this.finish();
 };
 

@@ -1,3 +1,5 @@
+"use strict";
+
 var _ = require('underscore');
 
 function Player(id, index, isHuman, team) {
@@ -13,10 +15,10 @@ var createPlayer = function (id, index, isHuman, team) {
 }
 
 var createPlayers = function(teams) {
-  p1 = new Player(1, 0, true, teams[0]);
-  p2 = new Player(2, 1, false, teams[0]);
-  p3 = new Player(3, 2, false, teams[1]);
-  p4 = new Player(4, 3, false, teams[1]);
+  var p1 = new Player(1, 0, true, teams[0]);
+  var p2 = new Player(2, 1, false, teams[0]);
+  var p3 = new Player(3, 2, false, teams[1]);
+  var p4 = new Player(4, 3, false, teams[1]);
   
   var players = [p1, p2, p3, p4];
   return players;
@@ -35,7 +37,7 @@ var getLowestRankedCard = function(cards) {
 }
 
 var getHighestCardBySuit = function (cards, suit) {
-  sameSuitCards = _.where(cards, {'suit': suit});
+  var sameSuitCards = _.where(cards, {'suit': suit});
   return getHighestRankedCard(sameSuitCards);
 }
 

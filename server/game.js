@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 
 var _ = require('underscore'),
   database = require('./database'),
@@ -12,8 +12,8 @@ var Card = cards.Card;
 var Deck = cards.Deck;
 var PlayerMove = cards.PlayerMove;
 
-// Game instance variables
-var humanPlayerIndex = 2;
+// Game state variables
+var humanPlayerIndex = 0;
 var playingOrder = [0, 1, 2, 3];
 var playerList = [];
 var playerCards = {};
@@ -84,14 +84,12 @@ exports.dealFirstCards = function(req, res) {
   }
 
   var firstCards = playerCards[humanPlayerIndex];
-  
   var jsonResponse = { response:'dealFirstCards', cards: firstCards, trumpSuit: trumpSuit};
   res(jsonResponse);
 };
 
 exports.chooseTrump = function(req, res) {
-
-  if (!isHumanPlayerFirst()) {
+  if (isHumanPlayerFirst()) {
     trumpSuit = req['suit'];
   }
 
@@ -110,11 +108,14 @@ exports.chooseTrump = function(req, res) {
 
 };
 
-
 //Utility methods
 
 var isHumanPlayerFirst = function() {
-  return humanPlayerIndex == playingOrder[0];
+  console.log("isHumanPlayerFirst playingOrder[0]: %d", playingOrder[0]);
+  console.log("isHumanPlayerFirst 0 == playingOrder[0]: %s", 0 == playingOrder[0]);
+  console.log("isHumanPlayerFirst 0 === playingOrder[0]: %s", 0 === playingOrder[0]);
+
+  return 0 == playingOrder[0];
 };
 
 var getPlayerById = function(id) {

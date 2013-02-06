@@ -7,7 +7,6 @@ var _ = require('underscore'),
   rules = require('./rules');
 
 //constants
-var humanPlayerIndex = 0;
 var humanPlayerId = 'A1';
 
 // Class definitions
@@ -15,16 +14,6 @@ var HandInfo = cards.HandInfo;
 var Card = cards.Card;
 var Deck = cards.Deck;
 var PlayerMove = cards.PlayerMove;
-
-/*
-var playingOrder = [0, 1, 2, 3];
-var playerList = [];
-var playerCards = {};
-var trumpSuit;
-var hand = new HandInfo();
-var teamScores = {};
-var deck;
-*/
 
 // Game state variables
 exports.GameState = function() {
@@ -74,6 +63,7 @@ exports.makeMove = function(state, req, res) {
 
 exports.startGame = function(state, req, res) {
   resetGame(state);
+  what();
   state.deck = new Deck();
   state.deck.shuffleDeck();
   var teams = [req.playerTeam, req.opponentTeam];
@@ -81,6 +71,7 @@ exports.startGame = function(state, req, res) {
   database.incr('game_id', function(err, data) {
     var gameId = data.toString(36);
     state.playerList = players.createPlayers(teams);
+    clearTeamScores(state);
     var jsonResponse = {response:'startGame', gameId: gameId, players: state.playerList, playingOrder: state.playingOrder};
     res(jsonResponse);
   });
@@ -280,7 +271,10 @@ var registerWin = function(state,player) {
 
 var clearTeamScores = function(state,player) {
   var team;
-  for (team in state.teamScores) {
+  var allTeams = _.pluck(state.playerList, "team");
+  var i;
+  for (i in allTeams) {
+    var team = allTeams[i];
     state.teamScores[team] = 0;
   } 
 };

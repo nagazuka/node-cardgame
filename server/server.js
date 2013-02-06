@@ -33,6 +33,7 @@ io.sockets.on('connection', function (socket) {
       } 
 
     } catch (err) {
+      console.log("ERROR: Unexpected exception occured: %s", err.message);
       var errorResponse = {response: "exception", resultMessage: err.message};
       var response = JSON.stringify(errorResponse);
       socket.send(response);

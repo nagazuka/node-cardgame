@@ -72,6 +72,18 @@ exports.startGame = function(req, res) {
   });
 };
 
+exports.nextGame = function(req, res) {
+  var jsonResponse = {'response': 'nextGame'};
+  jsonResponse['playingOrder'] = playingOrder;
+  jsonResponse['resultCode'] = 'SUCCESS';
+
+  clearGame();
+  clearTeamScores();
+
+  res(jsonResponse);
+};
+
+
 exports.dealFirstCards = function(req, res) {
   _.each(playerList, function(player) {
     console.log('player %j', player);
@@ -253,6 +265,13 @@ var registerWin = function(player) {
   }
 };
 
+var clearTeamScores = function(player) {
+  var team;
+  for (team in teamScores) {
+    teamScores[team] = 0;
+  } 
+};
+
 var convertHand = function(hand) {
   var playerMoves = hand.playerMoves;
   _.map(playerMoves, function(move) {
@@ -264,6 +283,11 @@ var convertHand = function(hand) {
 var resetGame = function() {
   playingOrder = [0, 1, 2, 3];
   playerList = [];
+  clearGame();
+};
+
+var clearGame = function() {
+  deck = new Deck();
   playerCards = {};
   teamScores = {};
   trumpSuit = undefined;

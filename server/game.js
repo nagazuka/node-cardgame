@@ -63,7 +63,6 @@ exports.makeMove = function(state, req, res) {
 
 exports.startGame = function(state, req, res) {
   resetGame(state);
-  what();
   state.deck = new Deck();
   state.deck.shuffleDeck();
   var teams = [req.playerTeam, req.opponentTeam];

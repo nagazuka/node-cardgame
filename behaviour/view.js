@@ -146,18 +146,25 @@ View.prototype = {
     drawBackground: function() {
       this.clearAllFromCategory("splash");
       var bg = this.getCanvas().rect(0, 0, constants.WIDTH, constants.HEIGHT);
-      bg.attr({fill: '45-#000-#555'});
+      //bg.attr({fill: '45-#000-#555'});
+      //bg.attr({fill: "url(./images/wild_oliva.png)"});
 
       var table = this.getCanvas().image(this.getTableImageFile(), constants.TABLE_X, constants.TABLE_Y, constants.TABLE_WIDTH, constants.TABLE_HEIGHT);
       
       var cardArea = this.getCanvas().rect(0, constants.CARD_AREA_Y, constants.WIDTH, constants.CARD_AREA_HEIGHT);
-      cardArea.attr({'fill': '90-#161:5-#000:95', 'fill-opacity': 0.5, 'stroke-width': 0, 'opacity': 0.1});
+      //cardArea.attr({'fill': '90-#161:5-#000:95', 'fill-opacity': 0.5, 'stroke-width': 0, 'opacity': 0.1});
+      cardArea.attr({fill: "url(./images/retina_wood.png)"});
     },
   
     initPxLoader: function() {
       var self = this;
 
       var loader = new PxLoader();
+
+      //add background images
+      loader.addImage("./images/retina_wood.png");
+      loader.addImage("./images/wild_oliva.png");
+
       var tableImage = this.getTableImageFile();
       loader.addImage(tableImage);
 

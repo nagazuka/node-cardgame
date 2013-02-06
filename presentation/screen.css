@@ -2,6 +2,11 @@
   display: none;
 }
 
+svg {
+  background-image: url(../images/wild_oliva.png);
+  background-repeat: repeat;
+}
+
 #alertContainer {
   display: none;
   z-index: 1000;
@@ -45,6 +50,8 @@ svg {
   margin: auto;
   width: 200px;
 }
+
+
 
 body {
   font-family: "Ubuntu", "Helvetica Neue", Helvetica, Arial, sans-serif;

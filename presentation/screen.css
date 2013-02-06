@@ -20,6 +20,11 @@ svg {
   margin: auto;
 }
 
+.page-header {
+  margin: 0px;
+  text-align:center;
+}
+
 #fbContainer {
   width: 728px;
   display: block;
@@ -29,6 +34,7 @@ svg {
 #progressOverlay {
   display: block;
   margin: auto;
+  margin-top: 50px;
   width: 728px;
   height: 600px;
 }

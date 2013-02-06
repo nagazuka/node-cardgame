@@ -79,18 +79,7 @@ Application.prototype = {
 
     var view = new View();
     var messageHandler = new MessageHandler();
-    
-    game.on('deal:firstCards', view.drawFirstCards, view);
-    game.on('deal:restOfCards', view.drawRestOfCards, view);
-    game.on('trump:chosen', view.drawTrumpSuit, view);
-    game.on('game:init', view.drawBackground, view);
-    game.on('game:init', messageHandler.connect, messageHandler);
-    game.on('game:askMove', view.clearMoves, view);
-    game.on('game:askMove', playerMoveList.reset, playerMoveList);
-    game.on('game:next', view.clearGame, view);
-    game.on('game:next', playerCardList.reset, playerCardList);
-    game.on('game:next', playerMoveList.reset, playerMoveList);
-    
+   
     window.game.setView(view);
     window.game.setMessageHandler(messageHandler);
 
@@ -98,7 +87,10 @@ Application.prototype = {
     window.game.setPlayerTeam("Team Suriname");
     window.game.setCpuTeam("Team Nederland");
 
-    view.preload();
+    //First try to make WebSocket connection, before preloading images
+    messageHandler.connect(function() {
+      view.preload();
+    }); 
   },
 
   getStoredValue: function(key) {  

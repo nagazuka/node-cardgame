@@ -77,7 +77,7 @@ View.prototype = {
       return this.repository;
     },
 
-    preload: function() {
+    preload: function(callback) {
       this.drawProgressOverlay();
       var loader = this.initPxLoader(); 
       loader.start();

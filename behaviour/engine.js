@@ -46,9 +46,9 @@ window.Game = Backbone.Model.extend({
   },
 
   init: function() {
-    this.handler.connect();
     this.view.drawBackground();
     this.initScores();
+    this.start();
   },
 
   start: function() {

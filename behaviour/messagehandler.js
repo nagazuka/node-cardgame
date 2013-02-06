@@ -5,17 +5,20 @@ function MessageHandler() {
 
 MessageHandler.prototype = {
 
-  connect: function() {
+  connect: function(callback) {
     var self = this;
-
+    
+    console.log("Opening WebSocket connection to game server");
     this.socket = io.connect(conf.network.wsURL);
     this.socket.on('connect', function () {
-        game.start();
         console.debug("Websocket opened, game started");
 
         self.socket.on('message', function (msg) {
           self.receiveMessage(msg);
           });
+
+        callback();
+
         });
 
     this.socket.on('disconnect', function () {

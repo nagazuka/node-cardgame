@@ -4,10 +4,6 @@
 
 function hasRequiredFeatures() {
   var res = true;
-  if (!("io" in window) && !("io" in window)) {
-    res = false;
-    console.error("No Socket.IO loaded");
-  }
   /*
   if (!("WebSocket" in window) && !("MozWebSocket" in window)) {
     res = false;
@@ -21,11 +17,28 @@ function hasRequiredFeatures() {
   return res;
 }
 
+function checkSocketIO() {
+  var res = true;
+  if (!("io" in window) && !("io" in window)) {
+    res = false;
+    console.error("No Socket.IO loaded");
+  }
+  console.log("Socket IO loaded: " + res);
+  return res;
+}
+
 function showBrowserLinks() {
   $("#progressOverlay").hide();
   $("#canvas").hide();
   $("#fbContainer").hide();
   $("#browserLinks").show();
+}
+
+function showUnavailable() {
+  $("#progressOverlay").hide();
+  $("#canvas").hide();
+  $("#fbContainer").hide();
+  $("#unavailable").show();
 }
 
 function initConsole() {
@@ -102,11 +115,13 @@ Application.prototype = {
 };
     
 initConsole();
-if (hasRequiredFeatures()) {
+if (!hasRequiredFeatures()) {
+  showBrowserLinks();
+} else if (!checkSocketIO()) {
+  showUnavailable();
+} else {
   var application = new Application();
   application.init();
-} else {
-  showBrowserLinks();
 }
 
 })(window, jQuery);

@@ -11,6 +11,10 @@
   display: none;
 }
 
+#unavailable {
+  display: none;
+}
+
 svg {
   display: block;
   margin: auto;

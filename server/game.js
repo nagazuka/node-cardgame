@@ -14,6 +14,7 @@ var PlayerMove = cards.PlayerMove;
 
 // Game state variables
 var humanPlayerIndex = 0;
+var humanPlayerId = 'A1';
 var playingOrder = [0, 1, 2, 3];
 var playerList = [];
 var playerCards = {};
@@ -26,7 +27,7 @@ var deck;
 
 exports.isReady = function(req, res) {
   if (rules.isGameDecided(teamScores)) {
-      var winningTeam = getWinningTeam();
+      var winningTeam = rules.getWinningTeam(teamScores);
       console.log("Winning team: %j", winningTeam);
       processWin(winningTeam);
       var jsonResponse = {'response': 'gameDecided', 
@@ -46,9 +47,9 @@ exports.makeMove = function(req, res) {
   var remainingCards = getPlayerCards(player);
 
   var playerMove = new PlayerMove(player, playedCard);
-  var isValidMove = rules.validatePlayerMove(hand, playerMove, trumpSuit, playerCards);
+  var isValidMove = rules.validatePlayerMove(hand, playerMove, trumpSuit, remainingCards);
   if (!isValidMove) {
-    response = {'response': 'invalidMove', 'playerId': req['playerId']}
+    var response = {'response': 'invalidMove', 'playerId': req['playerId']}
     res(response);
   } else {
     hand.addPlayerMove(playerMove);
@@ -76,14 +77,14 @@ exports.dealFirstCards = function(req, res) {
     console.log('player %j', player);
     var newCards = deck.removeCards(5); 
     console.log('player %j adding newCards %j', player, newCards);
-    playerCards[player.index] = newCards;
+    playerCards[player.id] = newCards;
   });
 
   if (!isHumanPlayerFirst()) {
     trumpSuit = decideTrump();
   }
 
-  var firstCards = playerCards[humanPlayerIndex];
+  var firstCards = playerCards[humanPlayerId];
   var jsonResponse = { response:'dealFirstCards', cards: firstCards, trumpSuit: trumpSuit};
   res(jsonResponse);
 };
@@ -97,11 +98,11 @@ exports.chooseTrump = function(req, res) {
     _.each(playerList, function(player) {
       var newCards = deck.removeCards(4);
       console.log('player %j adding newCards %j', player, newCards);
-      playerCards[player.index] = newCards.concat(playerCards[player.index]); 
+      playerCards[player.id] = newCards.concat(playerCards[player.id]); 
     });
   } 
 
-  var humanPlayerCards = playerCards[humanPlayerIndex];
+  var humanPlayerCards = playerCards[humanPlayerId];
 
   var jsonResponse = { response:'allCards', trumpSuit: trumpSuit, cards: humanPlayerCards};
   res(jsonResponse);
@@ -133,8 +134,9 @@ var getPlayerByIndex = function(index) {
 }
 
 var decideTrump = function() {
-  var firstPlayerIndex = playingOrder[0];
-  var firstCards = playerCards[firstPlayerIndex];
+  //var firstPlayerIndex = playingOrder[0];
+  var player = getStartingPlayer();
+  var firstCards = playerCards[player.id];
   return firstCards[0].suit;
 }
 
@@ -222,17 +224,18 @@ var getNextPlayer = function(step) {
 };
 
 var getPlayerCards = function(player) {
-  return playerCards[player.index];
+  var cards = playerCards[player.id];
+  return cards;
 };
 
 var removePlayerCard = function(player, card) {
-  var cards = playerCards[player.index];
+  var cards = playerCards[player.id];
   console.log("player cards size %d", cards.length);
   var filtered = _.filter(cards, function(c) {
     return !(c.rank == card.rank && c.suit == card.suit);
   }); 
   console.log("filtered size %d", filtered.length);
-  playerCards[player.index] = filtered;
+  playerCards[player.id] = filtered;
 };
 
 var removePlayerCardByMove = function(playerMove) {
@@ -248,10 +251,6 @@ var registerWin = function(player) {
   } else {
     teamScores[team] = 1;
   }
-};
-
-var getWinningTeam = function(player) {
-  return _.max(scores);
 };
 
 var convertHand = function(hand) {

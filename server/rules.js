@@ -1,3 +1,5 @@
+"use strict";
+
 var _ = require('underscore');
 
 var getHighestBySuit = function(playerMoves, suit) {
@@ -30,10 +32,23 @@ var decideWinner = function(hand, trumpSuit) {
 };
 
 var isGameDecided = function(teamScores) {
-   var hasWinner = _.some(teamScores, function(s) {
-      return s.length > 6;
-   });
-   return hasWinner;
+   var team;
+   for (team in teamScores) {
+     if (teamScores[team] > 6) {
+       return true;
+     }
+   }
+   return false;
+};
+
+var getWinningTeam = function(teamScores) {
+   var team;
+   for (team in teamScores) {
+     if (teamScores[team] > 6) {
+       return team;
+     }
+   }
+   return "";
 };
 
 var validatePlayerMove = function(hand, move, trumpSuit, remainingCards) {
@@ -46,15 +61,16 @@ var validatePlayerMove = function(hand, move, trumpSuit, remainingCards) {
 
           console.log("Asked suit %s", askedSuit);
           console.log("Remaining cards %j", remainingCards);
-
-          remainingAskedSuit = _.where(remainingCards, {'suit': askedSuit});
+          console.log("Remaining cards length %d", remainingCards.length);
+          var remainingAskedSuit = _.where(remainingCards, {'suit': askedSuit});
+          console.log("Remaining asked %j", remainingAskedSuit);
 
           if (remainingAskedSuit.length == 0) {
             return true;
           }
 
-          moveCard = move.card;
-          moveSuit = moveCard.suit;
+          var moveCard = move.card;
+          var moveSuit = moveCard.suit;
           if (moveSuit == askedSuit) {
             return true;
           }
@@ -67,5 +83,6 @@ var validatePlayerMove = function(hand, move, trumpSuit, remainingCards) {
 module.exports = {
   decideWinner: decideWinner,
   validatePlayerMove: validatePlayerMove,
-  isGameDecided: isGameDecided
+  isGameDecided: isGameDecided,
+  getWinningTeam: getWinningTeam
 }

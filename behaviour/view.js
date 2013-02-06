@@ -110,7 +110,7 @@ View.prototype = {
     updateProgressOverlay: function(e) {
       var percentage = 0;
       if (e.totalCount !== null) {
-        percentage = Math.floor(100.0*e.completedCount / e.totalCount);
+        percentage = Math.floor(50.0*e.completedCount / e.totalCount);
       }
       $('#progressBar').css('width', percentage + '%');
     },

@@ -41,6 +41,21 @@ function showUnavailable() {
   $("#unavailable").show();
 }
 
+function drawConnectionProgress() {
+  $('#canvas').hide();
+  $('#txtLoading').text("Bezig met verbinden");
+  $('#progressOverlay').show();
+  startProgressAnimation(50);
+}
+
+function startProgressAnimation(progress) {
+  $('#progressBarConnect').css('width','50%');
+}
+
+function stopProgressAnimation() {
+  $('#txtLoading').text("Bezig met afbeeldingen laden");
+}
+
 function initConsole() {
    var alertFallback = false;
    if (typeof console === "undefined" || typeof console.log === "undefined") {
@@ -88,7 +103,9 @@ Application.prototype = {
     window.game.setCpuTeam("Team Nederland");
 
     //First try to make WebSocket connection, before preloading images
+    drawConnectionProgress();
     messageHandler.connect(function() {
+      stopProgressAnimation();
       view.preload();
     }); 
   },

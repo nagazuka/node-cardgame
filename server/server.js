@@ -15,19 +15,27 @@ app.listen(port);
 io.sockets.on('connection', function (socket) {
   var state = new GameState();
   socket.on('message', function (data) { 
-      
-    var json = JSON.parse(data);
-    console.log('received message %s', json['command']);
-    var command = json['command'] 
-    console.log("command %s", command);
-    if(typeof game[command] === 'function') {
-      game[command](state, json, function(response) {
-        var response = JSON.stringify(response);
-        socket.send(response);
-      }
-      );
-    } else {
-      console.log('Command [%s] not found in game', command);
+    try {
+
+      var json = JSON.parse(data);
+      console.log('received message %s', json['command']);
+      var command = json['command'];
+      console.log("command %s", command);
+
+      if(typeof game[command] === 'function') {
+        game[command](state, json, function(response) {
+          var response = JSON.stringify(response);
+          socket.send(response);
+        }
+        );
+      } else {
+        console.log('Command [%s] not found in game', command);
+      } 
+
+    } catch (err) {
+      var errorResponse = {response: "exception", resultMessage: err.message};
+      var response = JSON.stringify(errorResponse);
+      socket.send(response);
     }
 
   });

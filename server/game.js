@@ -11,7 +11,7 @@ var humanPlayerIndex = 0;
 var humanPlayerId = 'A1';
 
 // Class definitions
-var HandInfo = require('./handinfo');
+var HandInfo = cards.HandInfo;
 var Card = cards.Card;
 var Deck = cards.Deck;
 var PlayerMove = cards.PlayerMove;

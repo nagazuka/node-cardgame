@@ -223,6 +223,10 @@ View.prototype = {
     var self = this;
     console.debug("drawSubText: " + subscript);
 
+    if (typeof subscript == "undefined") {
+      return;
+    }
+
     var subText = this.repository.findElement("subText","text");
     if (subText) {
       subText.attr({'text': subscript});

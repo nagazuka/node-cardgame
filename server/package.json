@@ -4,7 +4,7 @@
     "version": "0.0.1",
     "private": true,
     "dependencies": {
-        "underscore" : "*",
-        "socket.io": "*"
+        "underscore" : "1.4.4",
+        "socket.io": "0.9.13"
     }
 }

@@ -8,6 +8,7 @@ function hasRequiredFeatures() {
     res = false;
     console.error("No Socket.IO loaded");
   }
+  /*
   if (!("WebSocket" in window) && !("MozWebSocket" in window)) {
     res = false;
     console.error("No WebSocket support detected");
@@ -15,7 +16,7 @@ function hasRequiredFeatures() {
   if (!("localStorage" in window)) {
     res = false;
     console.error("No localStorage support detected");
-  }
+  } */
   console.log("Browser supported: " + res);
   return res;
 }

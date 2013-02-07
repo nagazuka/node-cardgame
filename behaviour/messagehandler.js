@@ -9,7 +9,8 @@ MessageHandler.prototype = {
     var self = this;
     
     console.log("Opening WebSocket connection to game server");
-    this.socket = io.connect(conf.network.wsURL);
+    var url = "ws://" + conf.network.host + ":" + conf.network.port;
+    this.socket = io.connect(url);
     this.socket.on('connect', function () {
         console.debug("Websocket opened, game started");
 
@@ -36,7 +37,7 @@ MessageHandler.prototype = {
   },
 
   receiveMessage : function(msg) {
-    console.debug("Receiveed: %s" ,msg);
+    console.debug("Received: %s" ,msg);
 
     var json = JSON.parse(msg);
     var handlerName = json.response;
@@ -59,7 +60,6 @@ MessageHandler.prototype = {
     //TODO send as method paramter
     game.playingOrder = response.playingOrder;
     _.each(response.players, function (p) {
-      console.debug('p: ' + p.isHuman);
       var player = new Player({'id': p.id, 'index': p.index, 'isHuman': p.isHuman, 'team': p.team});
       game.addPlayer(player);
       game.drawPlayer(player);

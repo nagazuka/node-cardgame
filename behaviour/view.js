@@ -228,7 +228,6 @@ View.prototype = {
 
   drawSubText: function(subscript, x, y) {
     var self = this;
-    console.debug("drawSubText: " + subscript);
 
     if (typeof subscript == "undefined") {
       return;
@@ -262,7 +261,6 @@ View.prototype = {
   countNewLines: function(content) {
     var matches = content.match(/\n/);
     var newLineCount = matches === null ? 1 : matches.length+1;
-    console.debug("content [" + content + "] has newLineCount [" + newLineCount + "]");
     return newLineCount;
   },
 
@@ -323,10 +321,6 @@ View.prototype = {
 
     //First, draw the background box for the icons
     
-    console.log("topLeftX: %s", topLeftX);
-    console.log("topLeftY: %s", topLeftX);
-    console.log("height: %s", height);
-    console.log("width: %s", width);
     var background = this.getCanvas().rect(topLeftX, topLeftY, width, height, 10).hide();
     background.attr({fill: "#000", opacity: .5, "stroke": "#666", "stroke-width": 4, "stroke-linejoin": "round"});
     this.repository.addElement(background, "trumpSuitBackground", "trumpSuitChoice");
@@ -336,7 +330,6 @@ View.prototype = {
     var i = 0;
     var suit;
     for (suit in constants.SUIT_ORDER) {
-      console.log("suit %s suit_order %s", suit, constants.SUIT_ORDER[suit]);
       var iconImage = this.getSuitImageFile(suit);
       var offset = i * (constants.TRUMPSUIT_SIZE + constants.TRUMPSUIT_PADDING);
 
@@ -369,19 +362,16 @@ View.prototype = {
   },
 
   clearTrumpSuitChoice: function() {
-    console.log("Clearing all trump suit choice");
     this.clearAllFromCategory("trumpSuitChoice");
   },
 
   drawDeck: function() {
-    console.debug("Drawing deck");
     var image = this.getDeckImageFile();
     var deck = this.getCanvas().image(image, constants.DECK_X, constants.DECK_Y, constants.DECK_WIDTH, constants.DECK_HEIGHT);
     this.repository.addElement(deck, "tableDeck", "deck");
   },
 
   clearDeck: function() {
-    console.debug("Clearing deck");
     this.clearAllFromCategory("deck");
   },
 
@@ -591,7 +581,6 @@ View.prototype = {
   },
 
   clearPlayerMoves: function() {
-    console.debug("Clearing all playerMoves");
     var playerMoves = this.repository.getElementsByCategory('playerMoves');
     _.each(playerMoves, function (pm) { 
       pm.remove(); 

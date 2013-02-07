@@ -87,16 +87,11 @@ window.Game = Backbone.Model.extend({
 
   addCards: function(newCards) {
     var cards = this.get('cards');
-    console.debug("Before addCards cards size: " + this.get('cards').length);
     cards = this.get('cards').concat(newCards);
-    console.debug("After concat cards size: " + cards.length);
-    //TODO: why the unique?
     cards = _.uniq(cards, false, function(c) {
       return c.get('suit') + '_' + c.get('rank');
     });
-    console.debug("After uniq cards size: " + cards.length);
     this.set({'cards': cards});
-    console.debug("After addCards cards size: " + this.get('cards').length);
   },
 
   sortCards: function() {
@@ -178,11 +173,9 @@ window.Game = Backbone.Model.extend({
   },
   
   addAndDrawMoves : function(moves) {
-    console.debug('addAndDrawMoves');
     var self = this;
     var existingMoves = this.get('playerMoves');
     var currentStep = existingMoves.length;
-    console.debug('addAndDrawMoves currentStep %d', currentStep);
 
     _.each(moves, function(move, index, list) {
       if (move.get('sequenceNumber') > currentStep) {
@@ -206,13 +199,11 @@ window.Game = Backbone.Model.extend({
     this.view.drawPlayerCards(this.get('cards'), this.playingOrder);
 
     var humanPlayer = this.get('humanPlayer');
-    console.debug("this.playingOrder[0] %d humanPlayer id %d humanPlayer index %d", this.playingOrder[0], this.get('humanPlayer').get('id'), this.get('humanPlayer').get('index'));
 
     this.setCardClickHandler(this.noAction);
     if (this.playingOrder[0] == humanPlayer.get('index')) {
       this.drawText(messages[conf.lang].chooseTrumpHeading, "");
       this.view.drawTrumpSuits(this.chooseTrump);
-      //this.setCardClickHandler(this.chooseTrump);
     } else {
       this.chooseFakeTrump();
     }

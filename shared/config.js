@@ -10,7 +10,7 @@ var conf = {
   font: 'Ubuntu',	
 
 	network: {
-    wsURL : 'ws://localhost:9080/',
+    host: 'localhost',
     port: 9080
 	},
   

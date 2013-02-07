@@ -63,9 +63,8 @@ window.Game = Backbone.Model.extend({
     this.handler.sendMessage({ 'command' : 'dealFirstCards', 'playerId' : this.get('humanPlayer').get('id')});
   },
 
-  chooseTrump: function fn_chooseTrump (card) {
-    //this.set({'trumpSuit': card.get('suit')});
-    this.handler.sendMessage({'command' : 'chooseTrump', 'suit': card.get('suit'), 'playerId' : this.get('humanPlayer').id});
+  chooseTrump: function fn_chooseTrump (suit) {
+    this.handler.sendMessage({'command' : 'chooseTrump', 'suit': suit, 'playerId' : this.get('humanPlayer').id});
   },
 
   chooseFakeTrump: function fn_chooseTrump () {
@@ -209,11 +208,12 @@ window.Game = Backbone.Model.extend({
     var humanPlayer = this.get('humanPlayer');
     console.debug("this.playingOrder[0] %d humanPlayer id %d humanPlayer index %d", this.playingOrder[0], this.get('humanPlayer').get('id'), this.get('humanPlayer').get('index'));
 
+    this.setCardClickHandler(this.noAction);
     if (this.playingOrder[0] == humanPlayer.get('index')) {
       this.drawText(messages[conf.lang].chooseTrumpHeading, "");
-      this.setCardClickHandler(this.chooseTrump);
+      this.view.drawTrumpSuits(this.chooseTrump);
+      //this.setCardClickHandler(this.chooseTrump);
     } else {
-      this.setCardClickHandler(this.noAction);
       this.chooseFakeTrump();
     }
   },

@@ -35,6 +35,9 @@ function Constants() {
   this.TRUMPSUIT_Y = 35;
   this.TRUMPSUIT_PADDING = 16;
 
+  this.TRUMPSUIT_CHOICE_X = (this.WIDTH / 2) - (2* (this.TRUMPSUIT_SIZE + this.TRUMPSUIT_PADDING));
+  this.TRUMPSUIT_CHOICE_Y = (this.CARD_AREA_Y / 2) - (this.TRUMPSUIT_SIZE/2);
+
   this.PLAYER_MIDDLE_Y = (this.CARD_AREA_Y / 2) - (this.PLAYER_SIZE / 2);
   this.PLAYER_MIDDLE_X = (this.WIDTH / 2) - (this.PLAYER_SIZE / 2);
   this.PLAYER_END_X = this.WIDTH - this.PLAYER_SIZE - this.PLAYER_HORIZ_PADDING;

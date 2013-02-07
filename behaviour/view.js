@@ -313,8 +313,64 @@ View.prototype = {
     this.repository.addElement(trumpSuitIcon, "trumpSuitIcon", "trumpSuit");
   },
 
+  drawTrumpSuits: function() {
+    var self = this;
+
+    var topLeftX = constants.TRUMPSUIT_CHOICE_X - 0.5 * constants.TRUMPSUIT_PADDING;
+    var topLeftY = constants.TRUMPSUIT_CHOICE_Y - constants.TRUMPSUIT_PADDING;
+    var height = constants.TRUMPSUIT_SIZE + constants.TRUMPSUIT_PADDING * 2;
+    var width = 4 * (constants.TRUMPSUIT_SIZE + constants.TRUMPSUIT_PADDING);
+
+    //First, draw the background box for the icons
+    
+    console.log("topLeftX: %s", topLeftX);
+    console.log("topLeftY: %s", topLeftX);
+    console.log("height: %s", height);
+    console.log("width: %s", width);
+    var background = this.getCanvas().rect(topLeftX, topLeftY, width, height, 10).hide();
+    background.attr({fill: "#000", opacity: .5, "stroke": "#666", "stroke-width": 4, "stroke-linejoin": "round"});
+    this.repository.addElement(background, "trumpSuitBackground", "trumpSuitChoice");
+    self.queueAnimate(background, {x: topLeftX, y: topLeftY}, 0);
+    
+    //Then draw the icons separately
+    var i = 0;
+    var suit;
+    for (suit in constants.SUIT_ORDER) {
+      console.log("suit %s suit_order %s", suit, constants.SUIT_ORDER[suit]);
+      var iconImage = this.getSuitImageFile(suit);
+      var offset = i * (constants.TRUMPSUIT_SIZE + constants.TRUMPSUIT_PADDING);
+
+      var trumpSuitIcon = this.getCanvas().image(iconImage, constants.TRUMPSUIT_CHOICE_X + offset, constants.TRUMPSUIT_CHOICE_Y, constants.TRUMPSUIT_SIZE, constants.TRUMPSUIT_SIZE);
+      this.repository.addElement(trumpSuitIcon, suit + "SuitIcon", "trumpSuitChoice");
+      trumpSuitIcon.hide();
+      trumpSuitIcon.data("suit", suit);
+      trumpSuitIcon.click(function(event) {
+        this.g.remove();
+        var iconSuit = this.data("suit");
+        self.clearTrumpSuitChoice();
+        game.chooseTrump(iconSuit);
+      });
+      trumpSuitIcon.mouseover(function(event) {
+        this.g = this.glow({color: "#fff", width: 20, fill: true});
+      });
+      trumpSuitIcon.mouseout(function(event) {
+        this.g.remove();
+      });
+
+      self.queueAnimate(trumpSuitIcon, {x: constants.TRUMPSUIT_CHOICE_X + offset, y: constants.TRUMPSUIT_CHOICE_Y}, 100);
+
+      i++;
+    }
+
+  },
+
   clearTrumpSuit: function() {
     this.clearAllFromCategory("trumpSuit");
+  },
+
+  clearTrumpSuitChoice: function() {
+    console.log("Clearing all trump suit choice");
+    this.clearAllFromCategory("trumpSuitChoice");
   },
 
   drawDeck: function() {

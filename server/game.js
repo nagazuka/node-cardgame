@@ -50,7 +50,7 @@ exports.makeMove = function(state, req, res) {
   var remainingCards = getPlayerCards(state, player);
 
   var playerMove = new PlayerMove(player, playedCard);
-  var isValidMove = rules.validatePlayerMove(state.hand, playerMove, state.trumpSuit, remainingCards);
+  var isValidMove = rules.validatePlayerMove(state.hand, playedCard, state.trumpSuit, remainingCards);
   if (!isValidMove) {
     var response = {'response': 'invalidMove', 'playerId': req['playerId']}
     res(response);

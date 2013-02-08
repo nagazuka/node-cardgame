@@ -51,7 +51,7 @@ var getWinningTeam = function(teamScores) {
    return "";
 };
 
-var validatePlayerMove = function(hand, move, trumpSuit, remainingCards) {
+var validatePlayerMove = function(hand, playedCard, trumpSuit, remainingCards) {
   //the first move is always valid
   if (hand.playerMoves.length == 0) {
     return true;
@@ -65,13 +65,12 @@ var validatePlayerMove = function(hand, move, trumpSuit, remainingCards) {
       return true;
     }
 
-    var moveCard = move.card;
-    var moveSuit = moveCard.suit;
+    var moveSuit = playedCard.suit;
     if (moveSuit == askedSuit) {
       return true;
     }
 
-    console.log("PlayedMove %s not valid for current hand %j", move, hand);
+    console.log("PlayedMove %s not valid for current hand %j", playedCard, hand);
     return false;
   }
 };

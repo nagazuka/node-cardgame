@@ -1,6 +1,7 @@
 "use strict";
 
 var _ = require('underscore');
+var rules = require('./rules');
 
 function Player(id, index, isHuman, team) {
    this.id = id;
@@ -31,6 +32,7 @@ var getHighestRankedCard = function(cards) {
 }
 
 var getLowestRankedCard = function(cards) {
+  console.log("getLowestRankedCard for: %j", cards);
   return _.min(cards, function(c) {
     return c.rank;
   });
@@ -99,42 +101,99 @@ var getWinningMove = function(hand, trumpSuit) {
 //TODO: don't always use highest trump card, but keep slightly higher than required
 //TODO: don't play highest card when somebody already cut with trump
 var getNextMove = function(player, remainingCards, hand, trumpSuit) {
-        console.log("getnextmove player %j ", player);
+        console.log("** DECIDING NEXT MOVE FOR PLAYER %s ", player.id);
+        console.log(" Remaining cards in getNextMove %j", remainingCards);
+
+        //Data sets
+        var askedSuit = hand.getAskedSuit();
+        console.log("Asked suit %s", askedSuit);
+        var sameSuits = _.where(remainingCards, {'suit': askedSuit});
+        console.log(" Same suit cards in getNextMove %j", sameSuits);
+        var trumps = _.where(remainingCards, {'suit': trumpSuit});
+        console.log(" Trump cards in getNextMove %j", trumps);
+        var candidates = _.union(sameSuits, trumps);
+        console.log(" Candidate cards in getNextMove %j", candidates);
+        var others = _.difference(remainingCards, candidates);
+        console.log(" Other cards in getNextMove %j", others);
+
+        //Facts
+        var isFirstPlayer = hand.size() == 0;
         var onWinningTeam = isMyTeamWinning(player, hand, trumpSuit);
-        console.log("Is my team winning? Answer: %s", onWinningTeam);
-        console.log("Remaining cards in getNextMove %j", remainingCards);
-        var choice = null;
-        if (hand.size() > 0) {
-            var askedSuit = hand.getAskedSuit();
-            console.log("Asked suit %s", askedSuit);
-            var candidates = _.where(remainingCards, {'suit': askedSuit});
-            var trumps = _.where(remainingCards, {'suit': trumps});
-            console.log("Candidates %j", candidates);
-            if (candidates.length > 0) {
-                if (onWinningTeam) {
-                  console.log("Has same suit and on winning team");
-                  choice = getLowestRankedCard(candidates);
-                } else {
-                  console.log("Has same suit and NOT on winning team");
-                  choice = getHighestRankedCard(candidates);
-                }
-            } else if (trumps.length > 0) {
-                if (onWinningTeam) {
-                  console.log("Has no same suit, has trump suit and on winning team");
-                  var otherSuits = difference(remainingCards, trumps);
-                  choice = getLowestRankedCard(otherSuits);
-                } else {
-                  console.log("Has no same suit, has trump suit and NOT on winning team");
-                  choice = getHighestCardBySuit(remainingCards, trumpSuit);
-                }
-            } else {
-              console.log("Has no same suit, has no trump suit");
-              choice = getLowestRankedCard(remainingCards);
-            }
-        } else {
-          choice = getLowestRankedCard(remainingCards);
+        var hasSameSuit = sameSuits.length > 0;
+        var hasTrump = trumps.length > 0;
+        var hasOthers = others.length > 0;
+        console.log("HasSameSuit %s HasTrump %s HasOthers %s OnWinningTeam %s", hasSameSuit, hasTrump, hasOthers, onWinningTeam);
+
+        //Rules
+        var strategy = "lowestAny"; 
+        if (isFirstPlayer) {
+          strategy = "highestAny";  
         }
-        console.log("choice %s", choice); 
+
+        if (!isFirstPlayer) {
+          if (onWinningTeam) {
+            if (hasSameSuit) {
+              strategy = "lowestSameSuit";
+            } else if (hasOthers) {
+              strategy = "lowestOthers";
+            } else {
+              strategy = "lowestTrump";
+            }
+          } else {
+            if (hasSameSuit) {
+              strategy = "highestSameSuit";
+            } else if (hasTrump) {
+              strategy = "lowestTrump";
+            } else {
+              strategy = "lowestOthers";
+            }
+          }
+        }
+
+        //Strategy
+        console.log("Chosen strategy: %s", strategy);
+
+        var choice = null;
+
+        switch (strategy) {
+          case "lowestAny":
+            choice = getLowestRankedCard(remainingCards);
+            break;
+          case "lowestOthers":
+            choice = getLowestRankedCard(others);
+            break;
+          case "lowestSameSuit":
+            choice = getLowestRankedCard(sameSuits);
+            break;
+          case "lowestTrump":
+            choice = getLowestRankedCard(trumps);
+            break;
+          case "highestAny":
+            choice = getHighestRankedCard(remainingCards);
+            break;
+          case "highestOthers":
+            choice = getHighestRankedCard(others);
+            break;
+          case "highestSameSuit":
+            choice = getHighestRankedCard(sameSuits);
+            break;
+          case "highestTrump":
+            choice = getHighestRankedCard(trumps);
+            break;
+          default: 
+            throw new Error("Incorrect rules, choice should not be %s for strategy %", choice, strategy);
+        }
+
+        if (typeof(choice) == undefined || choice == null) {
+          throw new Error("Incorrect rules, choice should not be %s for strategy %", choice, strategy);
+        }
+        
+        console.log("choice %j", choice); 
+
+        var isValidMove = rules.validatePlayerMove(hand, choice, trumpSuit, remainingCards);
+        if (!isValidMove) {
+          throw new Error("Incorrect rules, choice %j should not be invalid for strategy %", choice, strategy);
+        }
 
         return choice;
 };

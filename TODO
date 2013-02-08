@@ -1,0 +1,29 @@
+server
+- improve AI of cpu players
+  - don't play highest strategy if you cannot beat current winning move
+  - port decide trump logic from tornado version
+- remove unnecessary count from handinfo
+
+client:
+- after choosing trump, remove text immediately and make cards non-clickable
+- disable card clicking while dealing
+- show timer for other player's move
+- display big notifications for trump choice or kap
+- add dealer button to trump-caller
+- re-enable name change for player
+- add points system for players
+- add sounds to card dealing
+- correctly position subtext in-game
+- change splash logo to nice image
+- change splash subtext to nice button
+- add team choose screen
+- add avatar choose screen
+- persist game state on disconnect
+- resume game after reconnect
+- add player scores
+- implement facebook connect
+- persist high scores
+- show high scores after game
+- add player badges
+- minify css and jss with yui-compressor
+- make canvas full-width

@@ -45,6 +45,10 @@ MALE_NL: [
     'Willem',
     'Henk',
     'Jan',
+    'Piet',
+    'Klaas',
+    'Simon',
+    'Maarten',
     'Peter',
     'Martijn',
     'Christiaan'
@@ -65,11 +69,15 @@ MALE_SU : [
     'Jurgen',
     'Vinod',
     'Abdoel',
-    'Marciono',
+    'Marciano',
     'Luciano',
     'Sylvano',
     'Quincy',
     'Regilio',
+    'Humprey',
+    'Siegfried',
+    'Cedo',
+    'Shailesh',
     'Giuliano'
 ],
 FEMALE_NL : [

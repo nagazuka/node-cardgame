@@ -111,6 +111,14 @@ MessageHandler.prototype = {
   exception: function (response) {
     game.drawText(messages[conf.lang].errorMessage);
     console.error(response.resultMessage);
+    try {
+      if (document.location.hostname != 'localhost') {
+        _gaq.push(['_trackEvent', "Exception","Server Exception", response.resultMessage, false]); 
+        console.log("Pushed server error to GA for hostname: " + document.location.hostname);
+      }
+    } catch (e) {
+      console.error("Error during logging of server exception response");
+    }
   },
   
   transformPlayerMoves : function (hand) {

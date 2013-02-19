@@ -6,6 +6,7 @@ server
 
 client:
 - after choosing trump, remove text immediately and make cards non-clickable
+- arrow at action required on incorrect action
 - disable card clicking while dealing
 - show timer for other player's move
 - display big notifications for trump choice or kap

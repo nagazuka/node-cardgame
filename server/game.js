@@ -31,7 +31,6 @@ exports.GameState = function() {
 exports.isReady = function(state, req, res) {
   if (rules.isGameDecided(state.teamScores)) {
       var winningTeam = rules.getWinningTeam(state.teamScores);
-      console.log("Winning team: %j", winningTeam);
       processWin(state, winningTeam);
       var jsonResponse = {'response': 'gameDecided', 
         'scores': {'teamScore': state.teamScores},
@@ -90,9 +89,7 @@ exports.nextGame = function(state, req, res) {
 
 exports.dealFirstCards = function(state, req, res) {
   _.each(state.playerList, function(player) {
-    console.log('player %j', player);
     var newCards = state.deck.removeCards(5); 
-    console.log('player %j adding newCards %j', player, newCards);
     state.playerCards[player.id] = newCards;
   });
 
@@ -113,7 +110,6 @@ exports.chooseTrump = function(state, req, res) {
   while (state.deck.hasMoreCards()) {
     _.each(state.playerList, function(player) {
       var newCards = state.deck.removeCards(4);
-      console.log('player %j adding newCards %j', player, newCards);
       state.playerCards[player.id] = newCards.concat(state.playerCards[player.id]); 
     });
   } 
@@ -128,10 +124,6 @@ exports.chooseTrump = function(state, req, res) {
 //Utility methods
 
 var isHumanPlayerFirst = function(state) {
-  console.log("isHumanPlayerFirst playingOrder[0]: %d", state.playingOrder[0]);
-  console.log("isHumanPlayerFirst 0 == playingOrder[0]: %s", 0 == state.playingOrder[0]);
-  console.log("isHumanPlayerFirst 0 === playingOrder[0]: %s", 0 === state.playingOrder[0]);
-
   return 0 == state.playingOrder[0];
 };
 
@@ -160,7 +152,9 @@ var getStartingPlayer = function(state) {
 }
 
 var processWin = function(state, winningTeam) {
+    
   var currentStartingPlayer = getStartingPlayer(state)
+    console.log("Current startingPlayer team %s, winningTeam %s", currentStartingPlayer.team, winningTeam);
     if (currentStartingPlayer.team == winningTeam) {
       console.log("Current starting player is in winning team, not changing playing order")
     } else  {
@@ -245,11 +239,9 @@ var getPlayerCards = function(state, player) {
 
 var removePlayerCard = function(state, player, card) {
   var cards = state.playerCards[player.id];
-  console.log("player cards size %d", cards.length);
   var filtered = _.filter(cards, function(c) {
     return !(c.rank == card.rank && c.suit == card.suit);
   }); 
-  console.log("filtered size %d", filtered.length);
   state.playerCards[player.id] = filtered;
 };
 

@@ -43,28 +43,39 @@ var getHighestCardBySuit = function (cards, suit) {
   return getHighestRankedCard(sameSuitCards);
 }
 
-var beatsMove = function(winner, challenger, trumpSuit) {
-  var winnerCard = winner.card;
-  var challengerCard = challenger.card;
-  console.log("Winner %j", winnerCard);
-  console.log("Challenger %j", challengerCard);
-  if (winnerCard.suit == challengerCard.suit) {
-    return winnerCard.rank > challengerCard.rank;
-  } else if (challengerCard.suit == trumpSuit) {
-    return true; 
+var isMyTeamWinning = function(player, hand, trumpSuit) {
+  if (hand.playerMoves.length > 0) {
+    var winningMove = getWinningMove(hand, trumpSuit);
+    var winningPlayer = winningMove.player;
+    return (winningMove != null && player.team == winningPlayer.team);
   } else {
     return false;
   }
 };
 
-var isMyTeamWinning = function(player, hand, trumpSuit) {
+var canBeatWinningMoves = function(hand, sameSuits, trumps, askedSuit, trumpSuit) {
   if (hand.playerMoves.length > 0) {
-    var winningMove = getWinningMove(hand);
-    console.log("ismyteamwinning winningmove %j ", winningMove);
-    var winningPlayer = winningMove.player;
-    return (winningMove != null && player.team == winningPlayer.team);
+    var winningMove = getWinningMove(hand, trumpSuit);
+    var winningCard = winningMove.card;
+    console.log("canBeatWinningMove: winningCard %j", winningCard);
+    var higherSameSuits = _.filter(sameSuits, function(c) {
+      return (c.suit == winningCard.suit && c.rank > winningCard.rank);
+    });
+    console.log("canBeatWinningMove: sameSuits %j", sameSuits);
+    console.log("canBeatWinningMove: higherSameSuits %j", higherSameSuits);
+    console.log("canBeatwinningMove: trumps %j", trumps);
+    
+    var hasWinner;
+    if (higherSameSuits.length > 0) {
+      hasWinner = true;
+    } else if (sameSuits.length == 0 && trumps.length > 0) {
+      hasWinner = true;
+    } else {
+      hasWinner = false;
+    }
+    return hasWinner;
   } else {
-    return false;
+    return true;
   }
 };
 
@@ -77,19 +88,10 @@ var getWinningMove = function(hand, trumpSuit) {
   var winningMove = null;
   if (num == 1) {
     //first move is always winning moves
-    console.log("First move winning");
     winningMove = playerMoves[0];
   } else if (num > 1) {
-    console.log("Traversing other moves");
-    winningMove = playerMoves[0];
-    var i;
-    var otherMoves = _.rest(playerMoves);
-    for (i in otherMoves) {
-      var move = otherMoves[i]; 
-      var stillWinning = beatsMove(winningMove, move, trumpSuit); 
-      console.log("beatsMove response %s", stillWinning);
-      winningMove = stillWinning ? winningMove : move;
-    }
+    winningMove = rules.decideWinner(hand, trumpSuit);
+    console.log("Winning move decided by rules: %s", winningMove);
   } else {
     //no moves yet played, so no winning move
     winningMove = null;
@@ -99,7 +101,6 @@ var getWinningMove = function(hand, trumpSuit) {
 }
 
 //TODO: don't always use highest trump card, but keep slightly higher than required
-//TODO: don't play highest card when somebody already cut with trump
 var getNextMove = function(player, remainingCards, hand, trumpSuit) {
         console.log("** DECIDING NEXT MOVE FOR PLAYER %s ", player.id);
         console.log(" Remaining cards in getNextMove %j", remainingCards);
@@ -119,10 +120,11 @@ var getNextMove = function(player, remainingCards, hand, trumpSuit) {
         //Facts
         var isFirstPlayer = hand.size() == 0;
         var onWinningTeam = isMyTeamWinning(player, hand, trumpSuit);
+        var canBeatWinningMove = canBeatWinningMoves(hand, sameSuits, trumps, askedSuit, trumpSuit);
         var hasSameSuit = sameSuits.length > 0;
         var hasTrump = trumps.length > 0;
         var hasOthers = others.length > 0;
-        console.log("HasSameSuit %s HasTrump %s HasOthers %s OnWinningTeam %s", hasSameSuit, hasTrump, hasOthers, onWinningTeam);
+        console.log("Player %s ==> HasSameSuit %s HasTrump %s HasOthers %s OnWinningTeam %s CanBeatWinningMove %s", player.id, hasSameSuit, hasTrump, hasOthers, onWinningTeam, canBeatWinningMove);
 
         //Rules
         var strategy = "lowestAny"; 
@@ -141,9 +143,19 @@ var getNextMove = function(player, remainingCards, hand, trumpSuit) {
             }
           } else {
             if (hasSameSuit) {
-              strategy = "highestSameSuit";
+              if (canBeatWinningMove) {
+                strategy = "highestSameSuit";
+              } else {
+                strategy = "lowestSameSuit";
+              }
             } else if (hasTrump) {
-              strategy = "lowestTrump";
+              if (canBeatWinningMove) {
+                strategy = "highestTrump";
+              } else if (hasOthers) {
+                strategy = "lowestOthers";
+              } else {
+                strategy = "lowestTrump";
+              }
             } else {
               strategy = "lowestOthers";
             }

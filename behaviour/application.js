@@ -2,6 +2,18 @@
 
 (function(window, $, undefined) {
 
+window.onerror = function(message, url, lineNumber) {  
+    try {
+      if (document.location.hostname != 'localhost') {
+        _gaq.push(['_trackEvent', "Exception","Client Exception", message, false]); 
+        console.log("Pushed client error to GA for hostname: " + document.location.hostname);
+      }
+    } catch (e) {
+      console.error("Error during logging of uncaught client exception");
+    }
+  return false;
+};  
+
 function hasRequiredFeatures() {
   var res = true;
   /*
@@ -132,5 +144,6 @@ if (!hasRequiredFeatures()) {
   var application = new Application();
   application.init();
 }
+
 
 })(window, jQuery);

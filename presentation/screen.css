@@ -16,6 +16,10 @@ svg {
   display: none;
 }
 
+#game-description {
+  display: none;
+}
+
 #unavailable {
   display: none;
   text-align:center;

@@ -1,6 +1,6 @@
 server
 - improve AI of cpu players
-  - don't play highest strategy if you cannot beat current winning move
+  - don't always use highest trump card, but keep slightly higher than required
   - port decide trump logic from tornado version
 - remove unnecessary count from handinfo
 

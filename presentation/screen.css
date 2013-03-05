@@ -2,6 +2,10 @@
   display: none;
 }
 
+#canvas {
+  margin-top: 10px;
+}
+
 svg {
   background-image: url(../images/wild_oliva.png);
   background-repeat: repeat;

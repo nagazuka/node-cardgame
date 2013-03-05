@@ -117,6 +117,7 @@ View.prototype = {
 
     clearProgressOverlay: function() {
       $('#progressOverlay').hide();
+      $('#page-header').hide();
       $('#canvas').show();
     },
 

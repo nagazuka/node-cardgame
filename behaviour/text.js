@@ -15,7 +15,7 @@ var messages = {
     score:  'Stand',
     clickToAdvance:  'Klik om door te gaan...',
     clickToStart:  'Klik om te beginnen...',
-    gameDecided: "Spel afgelopen!.\n Winaar is ",
+    gameDecided: "Spel afgelopen!.\n Winnaar is ",
     gameTitle:  'TroefCall Online'
   }
 };

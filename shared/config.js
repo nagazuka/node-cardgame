@@ -10,8 +10,7 @@ var conf = {
   font: 'Ubuntu',	
 
 	network: {
-    host: 'localhost',
-    port: 9080
+	    port: 9080
 	},
   
   imageDir: 'images/',

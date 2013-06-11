@@ -9,7 +9,7 @@ MessageHandler.prototype = {
     var self = this;
     
     console.log("Opening WebSocket connection to game server");
-    var url = "ws://" + conf.network.host + ":" + conf.network.port;
+    var url = "ws://" + document.location.hostname + ":" + conf.network.port;
     this.socket = io.connect(url);
     this.socket.on('connect', function () {
         console.debug("Websocket opened, game started");

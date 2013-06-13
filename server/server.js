@@ -11,6 +11,11 @@ var port = config.network.port;
 console.log("Server started, listening at port %d", port);
 app.listen(port);
 
+//config Socket.IO
+io.enable('browser client minification');  // send minified client
+io.enable('browser client etag');          // apply etag caching logic based on version number
+io.enable('browser client gzip');          // gzip the file
+
 //Start Socket.IO listener
 io.sockets.on('connection', function (socket) {
   var state = new GameState();

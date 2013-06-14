@@ -159,6 +159,8 @@ View.prototype = {
   
     initPxLoader: function() {
       var self = this;
+      var lightMale = ['A','B','C','D','F','H','I','K','L','M'];
+      var darkMale = ['G','J','O'];
 
       var loader = new PxLoader();
 
@@ -193,7 +195,14 @@ View.prototype = {
       } else {
           var i;
           for (i=0; i < 4; i++) {
-            var playerImage = this.getRandomPlayerImageFile();
+            var candidates;
+            if (i % 2 == 0) {
+              candidates = darkMale;
+            } else {
+              candidates = lightMale;
+            }
+            var playerImage = this.getRandomPlayerImageFileFromCandidates(candidates);
+
             console.debug("Preloading player image [%s] for index %d", playerImage, i);
             this.playerImages.push(playerImage);
             loader.addImage(playerImage);
@@ -722,6 +731,16 @@ View.prototype = {
   getRandomPlayerImageFile: function() {
     var charCode = Math.floor(Math.random() * 15) + 65;
     var letter = String.fromCharCode(charCode);
+    var number = Math.floor(Math.random() * 5) + 1;
+    return this.getAvatarImageFile(letter, number);
+  },
+
+
+  getRandomPlayerImageFileFromCandidates: function(candidates) {
+    console.log("candidates %j ", candidates);
+    var index = Math.floor(Math.random() * candidates.length);
+    var letter = candidates[index];
+    console.log("letter %s ", letter);
     var number = Math.floor(Math.random() * 5) + 1;
     return this.getAvatarImageFile(letter, number);
   },

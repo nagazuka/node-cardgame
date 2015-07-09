@@ -46,6 +46,13 @@ svg {
   text-align:center;
 }
 
+#customAdContainer {
+  width: 728px;
+  display: block;
+  margin: auto;
+  text-align:center;
+}
+
 #progressOverlay {
   display: block;
   margin: auto;

@@ -26,5 +26,4 @@ client:
 - persist high scores
 - show high scores after game
 - add player badges
-- minify css and jss with yui-compressor
 - make canvas full-width
